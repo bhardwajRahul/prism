@@ -2,10 +2,10 @@ version: 2.1
 executors:
   docker-node:
     docker:
-      - image: cimg/node:16.20.2
+      - image: cimg/node:18.20
   docker-harness:
     docker:
-      - image: cimg/node:16.20.2
+      - image: cimg/node:18.20
       - image: kennethreitz/httpbin
         name: httpbin.org
   macos:
@@ -49,6 +49,7 @@ jobs:
       - when:
           condition: <<parameters.install_manually>>
           steps:
+            - run: nvm install 18.20.1 && nvm alias default 18.20.1
             - run: pip3 install pipenv gunicorn
             - run: sudo bash -c 'echo "0.0.0.0 httpbin.org" >> /etc/hosts'
             - run: git clone https://github.com/stoplightio/httpbin httpbin
